@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Usuarios.Pantalla_Principal">
-
+    tools:context=".Eventos.Usu_Evento_Detalle">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

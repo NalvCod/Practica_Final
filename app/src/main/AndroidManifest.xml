@@ -13,16 +13,31 @@
         android:theme="@style/Theme.Practica_Final"
         tools:targetApi="31">
         <activity
-            android:name=".Pantalla_Principal"
+            android:name=".Eventos.Usu_Evento_Detalle"
             android:exported="false" />
         <activity
-            android:name=".Pantalla_Inicio"
+            android:name=".Eventos.Usu_Ver_Eventos"
+            android:exported="false" />
+        <activity
+            android:name=".Eventos.Admin_Crear_Evento"
+            android:exported="false" />
+        <activity
+            android:name=".Cartas.Compra_Carta"
+            android:exported="false" />
+        <activity
+            android:name=".Usuarios.Pantalla_Iniciar_Sesion"
+            android:exported="false" />
+        <activity
+            android:name=".Usuarios.Pantalla_Principal"
+            android:exported="false" />
+        <activity
+            android:name=".Usuarios.Pantalla_Inicio"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".RegistroCliente"
+            android:name=".Usuarios.RegistroCliente"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

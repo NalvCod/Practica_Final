@@ -1,11 +1,14 @@
-package com.example.practica_final
+package com.example.practica_final.Usuarios
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.practica_final.R
 import com.example.practica_final.databinding.ActivityRegistroClienteBinding
 
 class RegistroCliente : AppCompatActivity() {
@@ -34,18 +37,28 @@ class RegistroCliente : AppCompatActivity() {
             }else{
                 binding.introducirNombre.error = "Por favor ingrese un nombre"
                 binding.introducirContrasena.error = "Por favor ingrese una contraseña"
+                binding.introducirCorreo.error = "Por favor ingrese un correo"
             }
         }
 
-        binding.imagenPerfil.setOnClickListener{
+        binding.fotoPerfil.setOnClickListener{
             //Acceder a galeria y elegir foto
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 1)
-
-            binding.imagenPerfil.setImageResource(R.drawable.usuario_generico)
-
         }
-
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
+            // Obtener la URI de la imagen seleccionada
+            val selectedImageUri: Uri? = data.data
+
+            // Establecer la URI seleccionada como imagen en la ImageView
+            binding.fotoPerfil.setImageURI(selectedImageUri)
+        }
+    }
+
 }
