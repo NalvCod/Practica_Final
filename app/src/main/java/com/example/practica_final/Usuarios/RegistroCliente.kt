@@ -2,10 +2,13 @@ package com.example.practica_final.Usuarios
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,13 +16,25 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.practica_final.R
 import com.example.practica_final.Util
 import com.example.practica_final.databinding.ActivityRegistroClienteBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import io.appwrite.Client
+import io.appwrite.ID
+import io.appwrite.models.InputFile
+import io.appwrite.services.Storage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class RegistroCliente : AppCompatActivity() {
     private lateinit var binding: ActivityRegistroClienteBinding
     private lateinit var usuario: Usuario
     private lateinit var database: DatabaseReference
+    private lateinit var storage : Storage
+    private var imagen : Uri? = null
 
     //La imagen es un URI pq
     private var url_imagen: Uri? = null
@@ -34,6 +49,8 @@ class RegistroCliente : AppCompatActivity() {
         id_projecto = "67a4e7f40018ce9b3ca7"
         id_bucket = "67a4e8c0002f1ef58c66"
         binding = ActivityRegistroClienteBinding.inflate(layoutInflater)
+        val client = Client().setEndpoint("https://cloud.appwrite.io/v1").setProject(id_projecto)
+        storage = Storage(client)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -48,7 +65,8 @@ class RegistroCliente : AppCompatActivity() {
             val email = binding.introducirCorreo.text.toString()
 
             if (comprobarUsuario(nombre, contrasena, contrasena2, email)){
-                crearUsuario(nombre, contrasena, contrasena2, email)
+                Log.v("REGISTRO", "Todo correcto")
+                crearUsuario(nombre, contrasena, "correo",false)
                 intent = Intent(this, Pantalla_Principal::class.java)
                 startActivity(intent)
             }
@@ -57,6 +75,7 @@ class RegistroCliente : AppCompatActivity() {
         binding.fotoPerfil.setOnClickListener {
             //Acceder a galeria y elegir foto
             val intent = Intent(Intent.ACTION_PICK)
+            Log.v("REGISTRO", "Intent creado")
             intent.type = "image/*"
             startActivityForResult(intent, 1)
         }
@@ -69,18 +88,18 @@ class RegistroCliente : AppCompatActivity() {
             val selectedImageUri: Uri? = data.data
             binding.fotoPerfil.setImageURI(selectedImageUri)
         }
+
+
+
     }
 
-    fun crearUsuario(nombre: String, contrasena: String, contrasena2: String, email: String): Usuario{
-        lateinit var usuario : Usuario
-
-        val id = database.child("usuarios").push().key
-        usuario = Usuario(id, nombre, contrasena, email, false, url_imagen)
-
-        Util.anadir_usuario(database, id!!, usuario)
-
-
-        return usuario
+    fun crearUsuario(nombre: String, contrasena: String, email: String, esAdmin: Boolean){
+            Log.v("REGISTRO", "Creando usuario")
+            lateinit var usuario : Usuario
+            val url_foto = generar_URL_Imagen(storage)
+            val id = database.child("usuarios").push().key
+            usuario = Usuario(id, nombre, contrasena, email, esAdmin, url_foto)
+            Util.anadir_usuario(database, id!!, usuario)
     }
 
     fun comprobarUsuario(nombre: String, contrasena: String, contrasena2: String, email: String):Boolean {
@@ -102,7 +121,6 @@ class RegistroCliente : AppCompatActivity() {
                 binding.repetirContrasenaLayout.boxStrokeColor = resources.getColor(R.color.rojito)
                 binding.repetirContrasenaLayout.hintTextColor = resources.getColorStateList(R.color.rojito)
             }
-
             if (comprobarCorreo(email) == false){
                 binding.introducirCorreo.error = "El correo no es correcto"
                 binding.introducirCorreoLayout.boxStrokeColor = resources.getColor(R.color.rojito)
@@ -114,43 +132,69 @@ class RegistroCliente : AppCompatActivity() {
     }
 
     fun comprobarNombre(nombre: String): Boolean {
+        val listaUsuarios = obtenerListaUsuarios(database, this)
         var esCorrecto = false
         if (nombre.length > 4) {
-            database.child("usuarios").orderByChild("nombre").equalTo(nombre)
-                .get().addOnSuccessListener { snapshot ->
-                    if (snapshot.exists()) {
-                        binding.introducirNombre.error = "El nombre de usuario ya existe"
-                    } else esCorrecto = true
+            if (Util.existeUsuario(listaUsuarios, nombre)) {
+                Toast.makeText(this, "El usuario ya existe", Toast.LENGTH_SHORT).show()
+            }
 
-                }.addOnFailureListener { exception ->
-                    Log.v("CONSULTA", "Error al consultar la base de datos: ${exception.message}")
-                    binding.introducirNombre.error = "Hubo un error al verificar el nombre"
-                }
-            return esCorrecto
+            esCorrecto = true
         } else {
             binding.introducirNombre.error = "El nombre de usuario debe tener al menos 5 caracteres"
-            return false
         }
-    }
-
-    fun comprobarCorreo(correo: String): Boolean {
-        var esCorrecto = false
-        database.child("usuarios").orderByChild("email").equalTo(correo).get()
-            .addOnSuccessListener { snapshot ->
-                if (snapshot.exists()) {
-                    binding.introducirCorreo.error = "El correo ya está registrado"
-                } else esCorrecto = true
-                }.addOnFailureListener { exception ->
-                Log.v("CONSULTA", "Error al consultar la base de datos: ${exception.message}")
-                binding.introducirCorreo.error = "Hubo un error al verificar el correo"
-            }
         return esCorrecto
     }
 
+    fun comprobarCorreo(email: String): Boolean {
+        val listaUsuarios = obtenerListaUsuarios(database, this)  // Suponiendo que ya tienes esta función
+        var esCorrecto = false
+
+        if (email.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            // Verificar si el correo ya existe en la lista de usuarios
+            if (Util.existeUsuario(listaUsuarios, email)) {
+                Toast.makeText(this, "El correo electrónico ya está registrado", Toast.LENGTH_SHORT).show()
+            } else {
+                esCorrecto = true
+            }
+        } else {
+            binding.introducirCorreo.error = "Por favor, introduce un correo electrónico válido"
+        }
+
+        return esCorrecto
+    }
+
+    fun obtenerListaUsuarios(db_ref: DatabaseReference, contexto: Context): MutableList<Usuario> {
+        val lista_usuarios = mutableListOf<Usuario>()
+
+        db_ref.child("usuarios").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                lista_usuarios.clear() // Limpiamos la lista antes de llenarla nuevamente
+
+                snapshot.children.forEach { usuarioSnapshot ->
+                    val usuario = usuarioSnapshot.getValue(Usuario::class.java)
+                    if (usuario != null) {
+                        lista_usuarios.add(usuario)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(
+                    contexto,
+                    "Error al obtener los usuarios: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+
+        return lista_usuarios
+    }
+
+
     fun comprobarContrasena(contrasena: String, contrasena2: String): Boolean {
         if (contrasena != contrasena2) {
-            binding.repetirContrasena.error = "La contraseñas no coincide"
-            binding.repetirContrasenaLayout.boxStrokeColor = resources.getColor(R.color.rojito)
+            binding.repetirContrasena.error = "Las contraseñas no coinciden"
             return false
         } else {
             //comprobar que la contraseña tenga mas de 8 caracteres y una mayuscula
@@ -164,8 +208,47 @@ class RegistroCliente : AppCompatActivity() {
         }
     }
 
-    fun generar_URL_Imagen(url: Uri?) {
+    fun generar_URL_Imagen(storage: Storage): String {
+        var url = ""
+        GlobalScope.launch(Dispatchers.IO) {
+            var mimeType = ""
+            var nombreArchivo = ""
+            val inputStream = contentResolver.openInputStream(url_imagen!!)
+            val aux = contentResolver.query(url_imagen!!, null, null, null, null)
+            aux.use {
+                if (it!!.moveToFirst()) {
+                    // Obtener el nombre del archivo
+                    val nombreIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (nombreIndex != -1) {
+                        nombreArchivo = it.getString(nombreIndex)
+                    }
+                }
+            }
+            mimeType = contentResolver.getType(url_imagen!!).toString()
 
+            val fileInput = InputFile.fromBytes(
+                bytes = inputStream?.readBytes() ?: byteArrayOf(),
+                filename = nombreArchivo,
+                mimeType = mimeType
+            )
+
+            val identificadorFile = ID.unique()
+            val file = storage.createFile(
+                bucketId = id_bucket,
+                fileId = identificadorFile,
+                file = fileInput,
+            )
+
+            url = "https://cloud.appwrite.io/v1/storage/buckets/$id_bucket/files/$identificadorFile/preview?project=$id_projecto&output=jpg"
+
+            Util.toastCorrutina(
+                this@RegistroCliente, applicationContext,
+                "Imagen descargada con éxito"
+            )
+        }
+        finish()
+        return url
     }
+
 }
 

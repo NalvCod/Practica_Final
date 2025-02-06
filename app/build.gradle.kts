@@ -42,7 +42,6 @@ android {
 
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -53,7 +52,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     //Firebase
-    //Firebase
     implementation ("com.google.firebase:firebase-database:20.0.2")
     implementation ("com.google.firebase:firebase-core:20.0.0")
     implementation ("com.google.firebase:firebase-storage:20.0.0")
@@ -62,9 +60,6 @@ dependencies {
     implementation ("com.google.firebase:firebase-analytics:20.0.2")
     implementation ("com.google.android.gms:play-services-auth:20.1.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.1")
-
-    //AppWriteStorage
-    implementation("io.appwrite:sdk-for-kotlin:5.0.1")
 
     //AppWriteStorage
     implementation("io.appwrite:sdk-for-kotlin:5.0.1")

@@ -8,10 +8,11 @@ data class Usuario (
     var contrasena: String? = "contraseña",
     var email: String? ="correo",
     var esAdmin: Boolean? = false,
-    var url_foto: Uri?
+    var url_foto: String = ""
     )
 
 {
+
     override fun toString(): String {
         return "Usuario(nombre='$nombre', contrasena='$contrasena')"
     }

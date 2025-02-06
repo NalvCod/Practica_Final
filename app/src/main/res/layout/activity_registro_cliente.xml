@@ -30,7 +30,7 @@
                 android:id="@+id/titulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Regístro de usuario"
+                android:text="Registro de usuario"
                 android:textAlignment="center"
                 android:textSize="22sp"
                 android:textStyle="bold" />
