@@ -1,11 +1,14 @@
 package com.example.practica_final.Usuarios
 
+import android.net.Uri
+
 data class Usuario (
-    var nombre: String = "Usuario",
-    var contrasena: String = "contraseña",
-    var email: String,
-    var esAdmin: Boolean,
-    var url_foto: String
+    var id : String? = "",
+    var nombre: String? = "Usuario",
+    var contrasena: String? = "contraseña",
+    var email: String? ="correo",
+    var esAdmin: Boolean? = false,
+    var url_foto: Uri?
     )
 
 {

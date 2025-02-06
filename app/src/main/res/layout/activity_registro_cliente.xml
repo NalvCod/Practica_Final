@@ -58,6 +58,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/introducir_nombre_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -77,6 +78,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/introducir_contrasena_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -97,6 +99,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/repetir_contrasena_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -117,6 +120,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/introducir_correo_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
