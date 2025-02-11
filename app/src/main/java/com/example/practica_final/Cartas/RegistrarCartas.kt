@@ -8,6 +8,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.Log
+import android.widget.Adapter
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -46,6 +48,23 @@ class RegistrarCartas : AppCompatActivity() {
         val client = Client().setEndpoint("https://cloud.appwrite.io/v1").setProject(id_projecto)
         storage = io.appwrite.services.Storage(client)
         setContentView(binding.root)
+        val colores = listOf("Blanco (W)", "Azul (U)", "Negro (B)", "Rojo (R)", "Verde (G)")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, colores)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.colorSpinner.adapter = adapter
+        binding.colorSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                val colorSeleccionado = colores[position]
+                // Realiza la acción que desees con el color seleccionado
+                Toast.makeText(this@RegistrarCartas, "Color seleccionado: $colorSeleccionado", Toast.LENGTH_SHORT).show()
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
 
         // Configurar las ventanas del sistema (gestión de márgenes)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

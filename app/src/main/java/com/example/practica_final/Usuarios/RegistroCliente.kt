@@ -120,7 +120,7 @@ class RegistroCliente : AppCompatActivity() {
             val usuario = Usuario(id_usuario,
                 binding.introducirNombre.text.toString(),
                 binding.introducirContrasena.text.toString(),
-                binding.introducirCorreo.toString(),
+                binding.introducirCorreo.text.toString(),
                 false,
                 url
             )
