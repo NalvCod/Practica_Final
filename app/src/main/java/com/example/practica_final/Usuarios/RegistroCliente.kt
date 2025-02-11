@@ -10,6 +10,7 @@ import android.provider.OpenableColumns
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -31,12 +32,8 @@ import kotlinx.coroutines.launch
 
 class RegistroCliente : AppCompatActivity() {
     private lateinit var binding: ActivityRegistroClienteBinding
-    private lateinit var usuario: Usuario
     private lateinit var database: DatabaseReference
     private lateinit var storage : Storage
-    private var imagen : Uri? = null
-
-    //La imagen es un URI pq
     private var url_imagen: Uri? = null
     private lateinit var id_projecto: String
     private lateinit var id_bucket: String
@@ -65,19 +62,14 @@ class RegistroCliente : AppCompatActivity() {
             val email = binding.introducirCorreo.text.toString()
 
             if (comprobarUsuario(nombre, contrasena, contrasena2, email)){
-                Log.v("REGISTRO", "Todo correcto")
-                crearUsuario(nombre, contrasena, "correo",false)
+                subir_usuario(storage)
                 intent = Intent(this, Pantalla_Principal::class.java)
                 startActivity(intent)
             }
         }
 
         binding.fotoPerfil.setOnClickListener {
-            //Acceder a galeria y elegir foto
-            val intent = Intent(Intent.ACTION_PICK)
-            Log.v("REGISTRO", "Intent creado")
-            intent.type = "image/*"
-            startActivityForResult(intent, 1)
+            accesoGaleria.launch("image/*")
         }
     }
 
@@ -88,18 +80,61 @@ class RegistroCliente : AppCompatActivity() {
             val selectedImageUri: Uri? = data.data
             binding.fotoPerfil.setImageURI(selectedImageUri)
         }
-
-
-
     }
 
-    fun crearUsuario(nombre: String, contrasena: String, email: String, esAdmin: Boolean){
-            Log.v("REGISTRO", "Creando usuario")
-            lateinit var usuario : Usuario
-            val url_foto = generar_URL_Imagen(storage)
-            val id = database.child("usuarios").push().key
-            usuario = Usuario(id, nombre, contrasena, email, esAdmin, url_foto)
-            Util.anadir_usuario(database, id!!, usuario)
+    fun subir_usuario(storage: Storage): String {
+        var url = ""
+        val id_usuario = database.child("clientes").push().key
+        GlobalScope.launch(Dispatchers.IO) {
+            var mimeType = ""
+            var nombreArchivo = ""
+            val inputStream = contentResolver.openInputStream(url_imagen!!)
+            val aux = contentResolver.query(url_imagen!!, null, null, null, null)
+            aux.use {
+                if (it!!.moveToFirst()) {
+                    // Obtener el nombre del archivo
+                    val nombreIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (nombreIndex != -1) {
+                        nombreArchivo = it.getString(nombreIndex)
+                    }
+                }
+            }
+            mimeType = contentResolver.getType(url_imagen!!).toString()
+
+            val fileInput = InputFile.fromBytes(
+                bytes = inputStream?.readBytes() ?: byteArrayOf(),
+                filename = nombreArchivo,
+                mimeType = mimeType
+            )
+
+            val identificadorFile = ID.unique()
+            val file = storage.createFile(
+                bucketId = id_bucket,
+                fileId = identificadorFile,
+                file = fileInput,
+            )
+
+            url = "https://cloud.appwrite.io/v1/storage/buckets/$id_bucket/files/$identificadorFile/preview?project=$id_projecto&output=jpg"
+
+
+            val usuario = Usuario(id_usuario,
+                binding.introducirNombre.text.toString(),
+                binding.introducirContrasena.text.toString(),
+                binding.introducirCorreo.toString(),
+                false,
+                url
+            )
+
+            Util.anadir_usuario(database, id_usuario!!, usuario)
+
+            Util.toastCorrutina(
+                this@RegistroCliente, applicationContext,
+                "Imagen descargada con éxito"
+            )
+        }
+        //finish()
+        Log.v("url", url)
+        return url
     }
 
     fun comprobarUsuario(nombre: String, contrasena: String, contrasena2: String, email: String):Boolean {
@@ -208,47 +243,16 @@ class RegistroCliente : AppCompatActivity() {
         }
     }
 
-    fun generar_URL_Imagen(storage: Storage): String {
-        var url = ""
-        GlobalScope.launch(Dispatchers.IO) {
-            var mimeType = ""
-            var nombreArchivo = ""
-            val inputStream = contentResolver.openInputStream(url_imagen!!)
-            val aux = contentResolver.query(url_imagen!!, null, null, null, null)
-            aux.use {
-                if (it!!.moveToFirst()) {
-                    // Obtener el nombre del archivo
-                    val nombreIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                    if (nombreIndex != -1) {
-                        nombreArchivo = it.getString(nombreIndex)
-                    }
-                }
-            }
-            mimeType = contentResolver.getType(url_imagen!!).toString()
 
-            val fileInput = InputFile.fromBytes(
-                bytes = inputStream?.readBytes() ?: byteArrayOf(),
-                filename = nombreArchivo,
-                mimeType = mimeType
-            )
 
-            val identificadorFile = ID.unique()
-            val file = storage.createFile(
-                bucketId = id_bucket,
-                fileId = identificadorFile,
-                file = fileInput,
-            )
-
-            url = "https://cloud.appwrite.io/v1/storage/buckets/$id_bucket/files/$identificadorFile/preview?project=$id_projecto&output=jpg"
-
-            Util.toastCorrutina(
-                this@RegistroCliente, applicationContext,
-                "Imagen descargada con éxito"
-            )
+    private val accesoGaleria = registerForActivityResult(ActivityResultContracts.GetContent())
+    { uri: Uri? ->
+        if (uri != null) {
+            url_imagen = uri
+            binding.fotoPerfil.setImageURI(url_imagen)
         }
-        finish()
-        return url
     }
-
 }
+
+
 
