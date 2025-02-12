@@ -61,9 +61,12 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
                         if (snapshot.exists()) {
                             val userSnapshot = snapshot.children.first()  // Obtener el primer usuario que coincida
                             val passwordFromDatabase = userSnapshot.child("contrasena").value.toString()
-
+                            Log.d("PASS", passwordFromDatabase)
+                            //obtener url usuario
+                            val url = userSnapshot.child("url_foto").value.toString()
+                            Log.d("UUUUUUUUUUUUURL", url)
                             if (password == passwordFromDatabase) {
-                                saveUser(userSnapshot.child("id").value.toString(), password)
+                                saveUser(userSnapshot.child("id").value.toString(), password, url)
 
                                 Toast.makeText(this@Pantalla_Iniciar_Sesion, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this@Pantalla_Iniciar_Sesion, Pantalla_Principal::class.java)
@@ -86,28 +89,25 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
                 // Verificar si los campos están vacíos
                 Toast.makeText(this, "Por favor, ingresa los datos", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 
     // Función para guardar el usuario en SharedPreferences
-    private fun saveUser(username: String, password: String) {
+    private fun saveUser(username: String, password: String, url: String) {
+        Log.d("URLLLLL", url)
         val editor = sharedPreferences.edit()
         editor.putString("username", username)
         editor.putString("password", password)
-        editor.putBoolean("isLoggedIn", true)  // Indicamos que el usuario está logueado
-        editor.apply()  // Aplicamos los cambios
+        editor.putString("imagen", url)
+        editor.putBoolean("isLoggedIn", true)
+        editor.apply()
     }
 
-    // Función para verificar si el usuario ya está logueado
     private fun checkUserLoggedIn() {
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
         if (isLoggedIn) {
             val username = sharedPreferences.getString("username", "")
             Toast.makeText(this, "Bienvenido de nuevo, $username", Toast.LENGTH_SHORT).show()
-
-            // Aquí podrías redirigir al usuario a la pantalla principal
-            // Ejemplo: startActivity(Intent(this, MainActivity::class.java))
         }
     }
 }
