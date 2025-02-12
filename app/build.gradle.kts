@@ -52,6 +52,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //DataStore
+    implementation ("androidx.datastore:datastore-preferences:1.1.2")
+
     //Firebase
     implementation ("com.google.firebase:firebase-database:20.0.2")
     implementation ("com.google.firebase:firebase-core:20.0.0")

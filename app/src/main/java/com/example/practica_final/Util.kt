@@ -3,6 +3,9 @@ package com.example.practica_final
 import android.content.Context
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.example.practica_final.Cartas.Carta_Magic
 import com.example.practica_final.Usuarios.Usuario
 import com.google.firebase.database.DatabaseReference
@@ -26,6 +29,25 @@ class Util {
                 Toast.makeText(contexto, texto, Toast.LENGTH_SHORT).show()
             }
         }
+
+        fun opcionesGlide(context: Context): RequestOptions {
+            val options = RequestOptions()
+                .placeholder(animacion_carga(context))
+                .error(R.drawable.magic_tras)
+            return options
+        }
+
+        val transicion = DrawableTransitionOptions.withCrossFade(500)
+
+        fun animacion_carga(contexto: Context): CircularProgressDrawable {
+            val animacion = CircularProgressDrawable(contexto)
+            animacion.strokeWidth = 5f
+            animacion.centerRadius = 30f
+            animacion.start()
+
+            return animacion
+        }
+
     }
 
 }

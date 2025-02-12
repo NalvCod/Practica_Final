@@ -8,7 +8,8 @@ data class Usuario (
     var contrasena: String? = "contraseña",
     var email: String? ="correo",
     var esAdmin: Boolean? = false,
-    var url_foto: String = ""
+    var url_foto: String = "",
+    var cartas_compradas: String = ""
     )
 
 {
