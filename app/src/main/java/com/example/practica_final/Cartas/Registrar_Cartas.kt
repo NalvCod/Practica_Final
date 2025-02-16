@@ -1,14 +1,11 @@
 package com.example.practica_final.Cartas
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.Log
-import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -30,7 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class RegistrarCartas : AppCompatActivity() {
+class Registrar_Cartas : AppCompatActivity() {
     private lateinit var binding: ActivityRegistrarCartasBinding
     private lateinit var database: DatabaseReference
     private lateinit var storage: Storage
@@ -56,7 +53,7 @@ class RegistrarCartas : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
                 val colorSeleccionado = colores[position]
                 // Realiza la acción que desees con el color seleccionado
-                Toast.makeText(this@RegistrarCartas, "Color seleccionado: $colorSeleccionado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@Registrar_Cartas, "Color seleccionado: $colorSeleccionado", Toast.LENGTH_SHORT).show()
 
             }
 
@@ -136,7 +133,7 @@ class RegistrarCartas : AppCompatActivity() {
 
             url = "https://cloud.appwrite.io/v1/storage/buckets/$id_bucket/files/$identificadorFile/preview?project=$id_projecto&output=jpg"
 
-            val carta = Carta_Magic(
+            val carta = Carta(
                 nombre = nombre,
                 color = color,
                 descripcion = descripcion,
@@ -149,7 +146,7 @@ class RegistrarCartas : AppCompatActivity() {
 
             // Mostrar un mensaje de éxito
             com.example.practica_final.Util.toastCorrutina(
-                this@RegistrarCartas, applicationContext,
+                this@Registrar_Cartas, applicationContext,
                 "Carta registrada con éxito"
             )
         }

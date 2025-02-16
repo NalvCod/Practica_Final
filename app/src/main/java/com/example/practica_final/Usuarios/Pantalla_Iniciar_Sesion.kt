@@ -27,8 +27,6 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
     private lateinit var storage: Storage
     private lateinit var id_projecto: String
     private lateinit var id_bucket: String
-
-    // Creamos una variable de SharedPreferences
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +97,7 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
         editor.putString("username", username)
         editor.putString("password", password)
         editor.putString("imagen", url)
+        editor.putBoolean("esAdmin", true)
         editor.putBoolean("isLoggedIn", true)
         editor.apply()
     }

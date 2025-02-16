@@ -13,22 +13,28 @@
         android:theme="@style/Theme.Practica_Final"
         tools:targetApi="31">
         <activity
-            android:name=".Cartas.VerCartas"
+            android:name=".Eventos.RegistrarEvento"
+            android:exported="false" />
+        <activity
+            android:name=".Eventos.Modificar_Evento"
+            android:exported="false" />
+        <activity
+            android:name=".Cartas.Ver_Cartas"
             android:exported="false" />
         <activity
             android:name=".Cartas.ModificarCartas"
             android:exported="false" />
         <activity
-            android:name=".Usuarios.RegistroCliente"
+            android:name=".Usuarios.Registro_Usuario"
             android:exported="false" />
         <activity
-            android:name=".Eventos.Usu_Evento_Detalle"
+            android:name=".Eventos.Evento_Detalle"
             android:exported="false" />
         <activity
-            android:name=".Eventos.Usu_Ver_Eventos"
+            android:name=".Eventos.Ver_Eventos"
             android:exported="false" />
         <activity
-            android:name=".Eventos.Admin_Crear_Evento"
+            android:name=".Eventos.Registrar_Evento_Admin"
             android:exported="false" />
         <activity
             android:name=".Cartas.Detalle_Carta"
@@ -40,7 +46,7 @@
             android:name=".Usuarios.Pantalla_Principal"
             android:exported="false" />
         <activity
-            android:name=".Cartas.RegistrarCartas"
+            android:name=".Cartas.Registrar_Cartas"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

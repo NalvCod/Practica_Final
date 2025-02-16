@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Usuarios.RegistroCliente">
+    tools:context=".Usuarios.Registro_Usuario">
 
 
     <ImageView
@@ -165,7 +165,7 @@
                 android:padding="20dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:backgroundTint="@color/naranja" />
+                android:background="@drawable/gradient_button"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

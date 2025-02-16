@@ -3,14 +3,14 @@ package com.example.practica_final.Usuarios
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
-import com.example.practica_final.Cartas.VerCartas
-import com.example.practica_final.Eventos.Usu_Ver_Eventos
+import com.example.practica_final.Cartas.Ver_Cartas
+import com.example.practica_final.Eventos.RegistrarEvento
+import com.example.practica_final.Eventos.Ver_Eventos
 import com.example.practica_final.R
 import com.example.practica_final.databinding.ActivityPantallaPrincipalBinding
 
@@ -24,11 +24,6 @@ class Pantalla_Principal : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         var perfilUrl = sharedPreferences.getString("imagen", "")
         if (!perfilUrl.isNullOrEmpty()) {
@@ -42,19 +37,16 @@ class Pantalla_Principal : AppCompatActivity() {
         }
 
         binding.gestionar.setOnClickListener {
-            //val intent = Intent(this, Pantalla_Gestionar_Eventos::class.java)
+            val intent = Intent(this, RegistrarEvento::class.java)
             startActivity(intent)
         }
         binding.verEventos.setOnClickListener {
-            val intent = Intent(this, Usu_Ver_Eventos::class.java)
+            val intent = Intent(this, Ver_Eventos::class.java)
             startActivity(intent)
         }
         binding.verCartas.setOnClickListener {
-            val intent = Intent(this, VerCartas::class.java)
+            val intent = Intent(this, Ver_Cartas::class.java)
             startActivity(intent)
         }
-
-
-
     }
 }

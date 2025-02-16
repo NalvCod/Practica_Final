@@ -30,7 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class RegistroCliente : AppCompatActivity() {
+class Registro_Usuario : AppCompatActivity() {
     private lateinit var binding: ActivityRegistroClienteBinding
     private lateinit var database: DatabaseReference
     private lateinit var storage : Storage
@@ -128,7 +128,7 @@ class RegistroCliente : AppCompatActivity() {
             Util.anadir_usuario(database, id_usuario!!, usuario)
 
             Util.toastCorrutina(
-                this@RegistroCliente, applicationContext,
+                this@Registro_Usuario, applicationContext,
                 "Imagen descargada con éxito"
             )
         }
@@ -145,23 +145,7 @@ class RegistroCliente : AppCompatActivity() {
                 todoCorrecto = true
             }
         } else {
-            if (comprobarNombre(nombre) == false){
-                binding.introducirNombre.error = "El nombre de usuario no es correcto"
-                binding.introducirNombreLayout.boxStrokeColor = resources.getColor(R.color.rojito)
-                binding.introducirNombreLayout.hintTextColor = resources.getColorStateList(R.color.rojito)
-            }
-            if (comprobarContrasena(contrasena, contrasena2) == false){
-                binding.introducirContrasenaLayout.boxStrokeColor = resources.getColor(R.color.rojito)
-                binding.introducirContrasenaLayout.hintTextColor = resources.getColorStateList(R.color.rojito)
-                binding.repetirContrasenaLayout.boxStrokeColor = resources.getColor(R.color.rojito)
-                binding.repetirContrasenaLayout.hintTextColor = resources.getColorStateList(R.color.rojito)
-            }
-            if (comprobarCorreo(email) == false){
-                binding.introducirCorreo.error = "El correo no es correcto"
-                binding.introducirCorreoLayout.boxStrokeColor = resources.getColor(R.color.rojito)
-                binding.introducirCorreoLayout.hintTextColor = resources.getColorStateList(R.color.rojito)
-            }
-            binding.introducirCorreo.error = "Ingresa un correo válido"
+            Toast.makeText(this, "Por favor, rellene todos los campos", Toast.LENGTH_SHORT).show()
         }
         return todoCorrecto
     }
@@ -243,8 +227,6 @@ class RegistroCliente : AppCompatActivity() {
         }
     }
 
-
-
     private val accesoGaleria = registerForActivityResult(ActivityResultContracts.GetContent())
     { uri: Uri? ->
         if (uri != null) {
@@ -253,6 +235,3 @@ class RegistroCliente : AppCompatActivity() {
         }
     }
 }
-
-
-

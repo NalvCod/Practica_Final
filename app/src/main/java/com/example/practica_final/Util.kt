@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.example.practica_final.Cartas.Carta_Magic
+import com.example.practica_final.Cartas.Carta
 import com.example.practica_final.Usuarios.Usuario
 import com.google.firebase.database.DatabaseReference
 
@@ -16,7 +16,7 @@ class Util {
             db_ref.child("usuarios").child(id).setValue(usuario)
         }
 
-        fun anadir_carta(db_ref: DatabaseReference, id: String, carta: Carta_Magic){
+        fun anadir_carta(db_ref: DatabaseReference, id: String, carta: Carta){
             db_ref.child("cartas").child(id).setValue(carta)
         }
 
