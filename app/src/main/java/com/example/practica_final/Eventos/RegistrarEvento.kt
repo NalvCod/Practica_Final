@@ -74,7 +74,7 @@ class RegistrarEvento : AppCompatActivity() {
             nombre = nombre,
             descripcion = descripcion,
             fecha = fecha,
-            participantes = ArrayList()
+            participantes = ""
         )
 
         // Guardar evento en Firebase

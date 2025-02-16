@@ -16,6 +16,10 @@ class Util {
             db_ref.child("usuarios").child(id).setValue(usuario)
         }
 
+        fun anadir_usuario_evento(db_ref: DatabaseReference, id: String, usuario: Usuario){
+            db_ref.child("usuarios_evento").child(id).setValue(usuario)
+        }
+
         fun anadir_carta(db_ref: DatabaseReference, id: String, carta: Carta){
             db_ref.child("cartas").child(id).setValue(carta)
         }

@@ -59,12 +59,10 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
                         if (snapshot.exists()) {
                             val userSnapshot = snapshot.children.first()  // Obtener el primer usuario que coincida
                             val passwordFromDatabase = userSnapshot.child("contrasena").value.toString()
-                            Log.d("PASS", passwordFromDatabase)
-                            //obtener url usuario
                             val url = userSnapshot.child("url_foto").value.toString()
-                            Log.d("UUUUUUUUUUUUURL", url)
+                            val id = userSnapshot.child("id").value.toString()
                             if (password == passwordFromDatabase) {
-                                saveUser(userSnapshot.child("id").value.toString(), password, url)
+                                saveUser(id, username, password, url)
 
                                 Toast.makeText(this@Pantalla_Iniciar_Sesion, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this@Pantalla_Iniciar_Sesion, Pantalla_Principal::class.java)
@@ -91,9 +89,10 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
     }
 
     // Función para guardar el usuario en SharedPreferences
-    private fun saveUser(username: String, password: String, url: String) {
+    private fun saveUser(id: String,username: String, password: String, url: String) {
         Log.d("URLLLLL", url)
         val editor = sharedPreferences.edit()
+        editor.putString("id", id)
         editor.putString("username", username)
         editor.putString("password", password)
         editor.putString("imagen", url)

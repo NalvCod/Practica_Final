@@ -1,8 +1,6 @@
 package com.example.practica_final.Eventos
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge

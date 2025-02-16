@@ -5,18 +5,27 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
+import android.content.SharedPreferences
+import android.util.Log
+import android.widget.Toast
 import com.example.practica_final.databinding.ActivityItemEventosBinding
 import com.google.firebase.database.FirebaseDatabase
 
-class EventoAdapter(private val lista_eventos: MutableList<Evento>) : RecyclerView.Adapter<EventoAdapter.EventoViewHolder>() {
+class EventoAdapter(private val lista_eventos: MutableList<Evento>) :
+    RecyclerView.Adapter<EventoAdapter.EventoViewHolder>() {
+    private lateinit var database: FirebaseDatabase
     private lateinit var contexto: Context
+    private lateinit var sharedPreferences: SharedPreferences
 
-    // ViewHolder con ViewBinding
-    inner class EventoViewHolder(val binding: ActivityItemEventosBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class EventoViewHolder(val binding: ActivityItemEventosBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventoViewHolder {
         contexto = parent.context
-        val binding = ActivityItemEventosBinding.inflate(LayoutInflater.from(contexto), parent, false)
+        database = FirebaseDatabase.getInstance()
+        sharedPreferences = contexto.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+        val binding =
+            ActivityItemEventosBinding.inflate(LayoutInflater.from(contexto), parent, false)
         return EventoViewHolder(binding)
     }
 
@@ -31,15 +40,45 @@ class EventoAdapter(private val lista_eventos: MutableList<Evento>) : RecyclerVi
             eventoFecha.text = evento_actual.fecha
 
             // Acciones para los botones
-            eventoDetallesButton.setOnClickListener {
+            informacion.setOnClickListener {
                 val intent = Intent(contexto, Evento_Detalle::class.java)
-                intent.putExtra("id_evento", evento_actual.nombre)
+                intent.putExtra("id_evento", evento_actual.id)
                 contexto.startActivity(intent)
             }
 
-            eventoApuntarse.setOnClickListener {
-                // Acción para apuntarse al evento (implementa lo que necesites)
+            holder.binding.apuntarse.setOnClickListener {
+                val idUsuario = sharedPreferences.getString("id", "")
+                Log.d("Eventooooooo", "ID del usuario: $idUsuario")
+
+                if (!idUsuario.isNullOrEmpty()) {
+                    //comprobar que el usuario no esté ya registrado
+                    if (evento_actual.participantes.contains(idUsuario)) {
+                        Toast.makeText(contexto, "Ya estás registrado en este evento", Toast.LENGTH_SHORT).show()
+
+                        return@setOnClickListener
+                    }
+
+                    // Concatenamos el nuevo ID al string de participantes
+                    Log.d("Eventooooooo", "ID del usuario: $idUsuario")
+                    evento_actual.participantes += "$idUsuario "
+                    Log.d("Eventooooooo", "Participantes: ${evento_actual.participantes}")
+
+                    // Actualizamos el valor de 'participantes' en Firebase
+                    database.reference.child("eventos")
+                        .child(evento_actual.id)
+                        .child("participantes")
+                        .setValue(evento_actual.participantes)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d("Evento", "Participante agregado correctamente")
+                            } else {
+                                Log.e("Evento", "Error al agregar participante", task.exception)
+                            }
+                        }
+                }
             }
+
+
 
             // Acción para eliminar el evento
             eventoBorrar.setOnClickListener {
@@ -52,3 +91,4 @@ class EventoAdapter(private val lista_eventos: MutableList<Evento>) : RecyclerVi
         }
     }
 }
+

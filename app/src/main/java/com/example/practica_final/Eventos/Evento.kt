@@ -5,7 +5,7 @@ package com.example.practica_final.Eventos
         var nombre : String = "",
         var descripcion : String = "",
         var fecha : String = "",
-        var participantes : ArrayList<String> = ArrayList()
+        var participantes : String =""
         )
     {
 
