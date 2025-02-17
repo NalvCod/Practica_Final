@@ -7,6 +7,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.practica_final.Cartas.Carta
+import com.example.practica_final.Eventos.Evento
 import com.example.practica_final.Usuarios.Usuario
 import com.google.firebase.database.DatabaseReference
 
@@ -18,6 +19,14 @@ class Util {
 
         fun anadir_carta(db_ref: DatabaseReference, id: String, carta: Carta){
             db_ref.child("cartas").child(id).setValue(carta)
+        }
+
+        fun anadir_evento(db_ref: DatabaseReference, id: String, evento: Evento){
+            db_ref.child("eventos").child(id).setValue(evento)
+        }
+
+        fun existe_evento(lista_eventos: List<Evento>, nombre: String): Boolean{
+            return lista_eventos.any{ it.nombre!!.lowercase() == nombre.lowercase()}
         }
 
         fun existeUsuario(usuarios: List<Usuario>, nombre: String): Boolean {

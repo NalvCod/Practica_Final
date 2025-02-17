@@ -47,7 +47,7 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
         checkUserLoggedIn()
 
         // Configuramos el botón de login
-        binding.registrarse.setOnClickListener {
+        binding.iniciarSesion.setOnClickListener {
             val username = binding.introducirNombre.text.toString()
             val password = binding.introducirContrasena.text.toString()
 

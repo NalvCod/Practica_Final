@@ -8,11 +8,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
+import com.example.practica_final.Usuarios.Usuario
 import com.example.practica_final.databinding.ActivityItemEventosBinding
 import com.google.firebase.database.FirebaseDatabase
 
 class EventoAdapter(private val lista_eventos: MutableList<Evento>) :
     RecyclerView.Adapter<EventoAdapter.EventoViewHolder>() {
+
     private lateinit var database: FirebaseDatabase
     private lateinit var contexto: Context
     private lateinit var sharedPreferences: SharedPreferences
@@ -51,17 +53,15 @@ class EventoAdapter(private val lista_eventos: MutableList<Evento>) :
                 Log.d("Eventooooooo", "ID del usuario: $idUsuario")
 
                 if (!idUsuario.isNullOrEmpty()) {
-                    //comprobar que el usuario no esté ya registrado
+                    // Comprobar que el usuario no esté ya registrado
                     if (evento_actual.participantes.contains(idUsuario)) {
                         Toast.makeText(contexto, "Ya estás registrado en este evento", Toast.LENGTH_SHORT).show()
-
                         return@setOnClickListener
                     }
 
-                    // Concatenamos el nuevo ID al string de participantes
-                    Log.d("Eventooooooo", "ID del usuario: $idUsuario")
-                    evento_actual.participantes += "$idUsuario "
-                    Log.d("Eventooooooo", "Participantes: ${evento_actual.participantes}")
+                    // Agregar el idUsuario directamente a la lista de participantes
+                    evento_actual.participantes.add(idUsuario)
+                    Log.d("Eventooooooo", "Participantes del evento: ${evento_actual.participantes}")
 
                     // Actualizamos el valor de 'participantes' en Firebase
                     database.reference.child("eventos")
@@ -78,8 +78,6 @@ class EventoAdapter(private val lista_eventos: MutableList<Evento>) :
                 }
             }
 
-
-
             // Acción para eliminar el evento
             eventoBorrar.setOnClickListener {
                 lista_eventos.removeAt(position)
@@ -91,4 +89,3 @@ class EventoAdapter(private val lista_eventos: MutableList<Evento>) :
         }
     }
 }
-

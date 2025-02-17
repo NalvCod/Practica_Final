@@ -55,7 +55,7 @@ class Registro_Usuario : AppCompatActivity() {
             insets
         }
 
-        binding.registrarse.setOnClickListener {
+        binding.registrarUsuario.setOnClickListener {
             val nombre = binding.introducirNombre.text.toString()
             val contrasena = binding.introducirContrasena.text.toString()
             val contrasena2 = binding.repetirContrasena.text.toString()

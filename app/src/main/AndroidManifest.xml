@@ -34,7 +34,7 @@
             android:name=".Eventos.Evento_Detalle"
             android:exported="false" />
         <activity
-            android:name=".Eventos.Ver_Eventos"
+            android:name=".Eventos.VerEventoActivity"
             android:exported="false" />
         <activity
             android:name=".Eventos.Registrar_Evento_Admin"

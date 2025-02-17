@@ -61,7 +61,8 @@
                     android:id="@+id/introducir_nombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre"
+                    android:hint="Nahuerl"
+                    android:text="Nahuerl"
                     android:inputType="textPersonName"
                     android:textColor="#333333" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -81,6 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:counterEnabled="true"
+                    android:text="12345678A"
                     android:hint="Contraseña"
                     android:inputType="textPassword"
                     android:textColor="#333333" />
@@ -89,10 +91,10 @@
 
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/anadir_carta"
+                android:id="@+id/iniciar_sesion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Confirmar"
+                android:text="Iniciar Sesión"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"

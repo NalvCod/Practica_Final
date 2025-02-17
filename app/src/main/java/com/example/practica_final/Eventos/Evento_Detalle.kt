@@ -1,5 +1,6 @@
 package com.example.practica_final.Eventos
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -18,11 +19,10 @@ import com.google.firebase.database.ValueEventListener
 class Evento_Detalle : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetalleEventoBinding
-    private lateinit var lista: MutableList<Usuario>
+    private lateinit var lista: MutableList<String>
     private lateinit var db_ref: DatabaseReference
     private lateinit var adaptador: UsuarioAdapter
     private lateinit var eventoId: String
-    private lateinit var participantesString: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,15 +50,12 @@ class Evento_Detalle : AppCompatActivity() {
                     val evento = snapshot.getValue(Evento::class.java)
                     if (evento != null) {
                         Log.d("DetalleEventoActivity", "Evento obtenido: ${evento.nombre}")
-
                     }
 
                     evento?.let {
-                        val participantesString = it.participantes ?: ""
-                        val participantesIds = participantesString.split(",").map { it.trim() }
+                        val participantesIds = it.participantes // Ahora es una lista de IDs de usuarios (String)
 
                         Log.d("DetalleEventoActivity", "Participantes IDs: $participantesIds")
-                        Log.d("DetalleEventoActivity", "Lista: $lista")
 
                         // Obtener los datos de cada usuario usando los IDs
                         obtenerDatosUsuarios(participantesIds)
@@ -66,19 +63,19 @@ class Evento_Detalle : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Log.e("DetalleEventoActivity", "Error al obtener los datos del evento", error.toException())
                 }
             })
     }
 
-
+    @SuppressLint("NotifyDataSetChanged")
     private fun obtenerDatosUsuarios(participantesIds: List<String>) {
         participantesIds.forEach { usuarioId ->
             db_ref.child("usuarios").child(usuarioId).get()
                 .addOnSuccessListener { usuarioSnapshot ->
                     val usuario = usuarioSnapshot.getValue(Usuario::class.java)
                     usuario?.let {
-                        lista.add(it)
+                        it.id?.let { it1 -> lista.add(it1) }
                         adaptador.notifyDataSetChanged()
                     }
                 }

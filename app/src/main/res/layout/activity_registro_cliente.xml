@@ -154,9 +154,8 @@
                     android:textColor="#333333" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/anadir_carta"
+                android:id="@+id/registrar_usuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Registrarse"

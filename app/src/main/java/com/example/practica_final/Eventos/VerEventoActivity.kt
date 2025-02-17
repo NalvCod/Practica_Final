@@ -1,5 +1,6 @@
 package com.example.practica_final.Eventos
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageView
@@ -15,7 +16,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class Ver_Eventos : AppCompatActivity() {
+class VerEventoActivity : AppCompatActivity() {
 
     private lateinit var volver: ImageView
     private lateinit var recycler: RecyclerView
@@ -35,7 +36,7 @@ class Ver_Eventos : AppCompatActivity() {
         db_ref = FirebaseDatabase.getInstance().reference
         buscar = findViewById(R.id.buscar_evento)
 
-        var lista_filtrada = mutableListOf<Evento>()
+        var lista_filtrada: MutableList<Evento>
 
         adaptador = EventoAdapter(lista)
         recycler.adapter = adaptador
@@ -51,6 +52,7 @@ class Ver_Eventos : AppCompatActivity() {
         }
 
         db_ref.child("eventos").addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
                 lista.clear()
                 snapshot.children.forEach { hijo: DataSnapshot? ->

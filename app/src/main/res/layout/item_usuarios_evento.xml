@@ -15,8 +15,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/item_miniatura"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_margin="20dp"
             android:backgroundTint="@color/white"
             app:cardCornerRadius="60dp"
@@ -49,8 +49,8 @@
 
         <ImageView
             android:id="@+id/borrar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginEnd="30dp"
             android:src="@drawable/delete"
             app:layout_constraintBottom_toBottomOf="@+id/usuario"
