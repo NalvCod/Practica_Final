@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Cartas.Detalle_Carta">
+    tools:context=".Cartas.DetalleCarta">
 
     <ImageView
         android:id="@+id/imagen_carta"
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="3€"
-        android:textSize="30sp"
+        android:textSize="40sp"
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toTopOf="@+id/comprar"
         app:layout_constraintEnd_toEndOf="@+id/descripcion_carta"

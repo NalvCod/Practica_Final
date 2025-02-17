@@ -76,9 +76,10 @@ class Registrar_Cartas : AppCompatActivity() {
             val color = binding.colorSpinner.selectedItem.toString()
             val descripcion = binding.introducirDescripcion.text.toString()
             val unidades = binding.introducirUnidades.text.toString().toIntOrNull() ?: 0
+            val precio = binding.introducirPrecio.text.toString().toFloatOrNull() ?: 0f
 
-            if (comprobarDatos(nombre, color, descripcion, unidades)) {
-                subirCarta(storage, nombre, color, descripcion, unidades)
+            if (comprobarDatos(nombre, color, precio, descripcion, unidades)) {
+                subirCarta(storage, nombre, color, precio, descripcion, unidades)
                 val intent = Intent(this, Pantalla_Principal::class.java)
                 startActivity(intent)
             }
@@ -99,7 +100,7 @@ class Registrar_Cartas : AppCompatActivity() {
         }
     }
 
-    fun subirCarta(storage: Storage, nombre: String, color: String, descripcion: String, unidades: Int) {
+    fun subirCarta(storage: Storage, nombre: String, color: String, precio: Float, descripcion: String, unidades: Int) {
         var url = ""
         val id_carta = database.child("cartas").push().key
         GlobalScope.launch(Dispatchers.IO) {
@@ -136,6 +137,7 @@ class Registrar_Cartas : AppCompatActivity() {
             val carta = Carta(
                 nombre = nombre,
                 color = color,
+                precio = precio,
                 descripcion = descripcion,
                 unidades = unidades,
                 url_imagen = url
@@ -153,7 +155,7 @@ class Registrar_Cartas : AppCompatActivity() {
         Log.v("url", url)
     }
 
-    fun comprobarDatos(nombre: String, color: String, descripcion: String, unidades: Int): Boolean {
+    fun comprobarDatos(nombre: String, color: String, precio : Float, descripcion: String, unidades: Int): Boolean {
         var todoCorrecto = true
         if (nombre.isEmpty()) {
             binding.introducirNombre.error = "El nombre es obligatorio"

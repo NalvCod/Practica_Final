@@ -17,7 +17,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class VerEventoActivity : AppCompatActivity() {
-
     private lateinit var volver: ImageView
     private lateinit var recycler: RecyclerView
     private lateinit var lista: MutableList<Evento>

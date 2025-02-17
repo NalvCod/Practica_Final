@@ -4,21 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_margin="20dp"
     app:cardCornerRadius="10dp"
     app:cardElevation="5dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
 
-            <ImageView
-                android:id="@+id/imagen_carta"
-                android:layout_width="85dp"
-                android:layout_height="95dp"
-                android:src="@drawable/magic_tras"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:id="@+id/imagen_carta"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/magic_tras"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.45"
+            android:padding="10dp"
+            android:scaleType="fitCenter"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/info_carta"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imagen_carta"
+            app:layout_constraintBottom_toTopOf="@+id/comprar">
 
             <TextView
                 android:id="@+id/titulo_carta"
@@ -27,59 +43,82 @@
                 android:text="Titulo Carta"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/imagen_carta"
-                app:layout_constraintStart_toStartOf="@+id/imagen_carta"
-                app:layout_constraintTop_toBottomOf="@+id/imagen_carta" />
-
-            <!-- Botón de editar al lado de la imagen -->
-            <ImageView
-                android:id="@+id/edit"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/baseline_edit_24"
-                app:layout_constraintEnd_toStartOf="@+id/delete"
-                app:layout_constraintStart_toEndOf="@+id/imagen_carta"
+                android:textColor="@color/naranja"
+                app:layout_constraintBottom_toTopOf="@+id/precio_carta"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Botón de borrar al lado de la imagen -->
-            <ImageView
-                android:id="@+id/delete"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/delete"
-                app:layout_constraintBottom_toBottomOf="@+id/edit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/edit"
-                app:layout_constraintTop_toTopOf="@+id/edit" />
-
-            <!-- Botón "Ver más" -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/comprar"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/precio_carta"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/naranja"
-                android:text="Ver más"
-                android:textColor="@color/white"
-                android:textSize="13sp"
-                app:layout_constraintEnd_toStartOf="@+id/info"
+                android:text="1"
+                android:textSize="30dp"
+                app:layout_constraintBottom_toBottomOf="@+id/titulo_carta"
+                app:layout_constraintEnd_toEndOf="@+id/titulo_carta"
                 app:layout_constraintStart_toStartOf="@+id/titulo_carta"
                 app:layout_constraintTop_toBottomOf="@+id/titulo_carta" />
 
-            <!-- Botón "Comprar" -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/info"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/moneda"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@color/naranja"
-                android:text="Comprar"
-                android:textColor="@color/white"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="@+id/comprar"
-                app:layout_constraintEnd_toEndOf="@+id/titulo_carta"
-                app:layout_constraintStart_toEndOf="@id/comprar"
-                app:layout_constraintTop_toTopOf="@+id/comprar" />
-
+                android:text="€"
+                android:textSize="30dp"
+                app:layout_constraintBottom_toBottomOf="@+id/precio_carta"
+                app:layout_constraintStart_toEndOf="@+id/precio_carta" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
 
+        <!-- Botón de editar al lado de la imagen -->
+        <ImageView
+            android:id="@+id/edit"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/baseline_edit_24"
+            app:layout_constraintEnd_toStartOf="@+id/delete"
+            app:layout_constraintStart_toEndOf="@+id/imagen_carta"
+            app:layout_constraintTop_toTopOf="@+id/imagen_carta" />
+
+        <!-- Botón de borrar al lado de la imagen -->
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/delete"
+            app:layout_constraintBottom_toBottomOf="@+id/edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edit"
+            app:layout_constraintTop_toTopOf="@+id/edit" />
+
+        <!-- Botón "Ver más" -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/comprar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/gradient_button"
+            android:text="Ver más"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_carta" />
+
+        <!-- Botón "Comprar" -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_button"
+            android:layout_margin="5dp"
+            android:text="Comprar"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/comprar"
+            app:layout_constraintEnd_toEndOf="@+id/info_carta"
+            app:layout_constraintStart_toEndOf="@id/comprar"
+            app:layout_constraintTop_toTopOf="@+id/comprar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

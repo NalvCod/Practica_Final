@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Practica_Final"
         tools:targetApi="31">
         <activity
+            android:name=".Cartas.PedidosAdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".Usuarios.InformacionUsuario"
             android:exported="false" />
         <activity
@@ -22,7 +25,7 @@
             android:name=".Eventos.Modificar_Evento"
             android:exported="false" />
         <activity
-            android:name=".Cartas.Ver_Cartas"
+            android:name=".Cartas.VerCartasActivity"
             android:exported="false" />
         <activity
             android:name=".Cartas.ModificarCartas"
@@ -40,7 +43,7 @@
             android:name=".Eventos.Registrar_Evento_Admin"
             android:exported="false" />
         <activity
-            android:name=".Cartas.Detalle_Carta"
+            android:name=".Cartas.DetalleCarta"
             android:exported="false" />
         <activity
             android:name=".Usuarios.Pantalla_Iniciar_Sesion"

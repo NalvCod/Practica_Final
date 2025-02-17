@@ -9,7 +9,7 @@ data class Usuario (
     var email: String? ="correo",
     var esAdmin: Boolean? = false,
     var url_foto: String = "",
-    var cartas_compradas: String = ""
+    var cartas_compradas: MutableList<String> = mutableListOf()
     )
 
 {

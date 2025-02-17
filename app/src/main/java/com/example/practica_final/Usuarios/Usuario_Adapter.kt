@@ -14,7 +14,7 @@ import com.example.practica_final.databinding.ItemUsuariosEventoBinding
 import com.google.firebase.database.FirebaseDatabase
 
 class UsuarioAdapter(
-    private val lista_usuarios: MutableList<String>,  // Ahora es una lista de IDs de usuario
+    private val lista_usuarios: MutableList<String>,
     private val id_evento_actual: String
 ) : RecyclerView.Adapter<UsuarioAdapter.UsuarioViewHolder>() {
 

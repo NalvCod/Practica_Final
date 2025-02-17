@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
-import com.example.practica_final.Cartas.Ver_Cartas
+import com.example.practica_final.Cartas.VerCartasActivity
 import com.example.practica_final.Eventos.RegistrarEvento
 import com.example.practica_final.Eventos.VerEventoActivity
 import com.example.practica_final.R
@@ -50,7 +50,7 @@ class Pantalla_Principal : AppCompatActivity() {
             startActivity(intent)
         }
         binding.verCartas.setOnClickListener {
-            val intent = Intent(this, Ver_Cartas::class.java)
+            val intent = Intent(this, VerCartasActivity::class.java)
             startActivity(intent)
         }
     }
