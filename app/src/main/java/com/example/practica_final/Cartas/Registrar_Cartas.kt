@@ -71,7 +71,7 @@ class Registrar_Cartas : AppCompatActivity() {
         }
 
         // Acción al pulsar en el botón de registrarse
-        binding.registrarse.setOnClickListener {
+        binding.anadirCarta.setOnClickListener {
             val nombre = binding.introducirNombre.text.toString()
             val color = binding.colorSpinner.selectedItem.toString()
             val descripcion = binding.introducirDescripcion.text.toString()

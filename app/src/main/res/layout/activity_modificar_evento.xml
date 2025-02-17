@@ -116,7 +116,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/registrarse"
+                android:id="@+id/anadir_carta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Crear evento"

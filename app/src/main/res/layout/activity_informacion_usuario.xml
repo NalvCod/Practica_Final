@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Usuarios.InformacionUsuario">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/item_miniatura"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="60dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/white">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/foto_perfil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@tools:sample/avatars" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/nombre_usuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Nombre Usuario"
+        android:textColor="@color/naranjita"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/item_miniatura"
+        app:layout_constraintStart_toStartOf="@+id/item_miniatura"
+        app:layout_constraintTop_toBottomOf="@+id/item_miniatura" />
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_cartas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="30dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toTopOf="@id/card_eventos"
+        app:layout_constraintTop_toBottomOf="@id/nombre_usuario"
+        tools:layout_editor_absoluteX="30dp">
+
+        <TextView
+            android:id="@+id/titulo_cartas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Cartas compradas"
+            android:padding="10dp"
+            android:textColor="@color/naranjita"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/item_miniatura"
+            app:layout_constraintStart_toStartOf="@+id/item_miniatura"
+            app:layout_constraintTop_toBottomOf="@+id/item_miniatura" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_eventos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="30dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_cartas"
+        tools:layout_editor_absoluteX="30dp">
+
+        <TextView
+            android:id="@+id/titulo_eventos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Eventos registrados"
+            android:textColor="@color/naranjita"
+            android:textSize="18dp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/item_miniatura"
+            app:layout_constraintStart_toStartOf="@+id/item_miniatura"
+            app:layout_constraintTop_toBottomOf="@+id/item_miniatura" />
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

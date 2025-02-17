@@ -92,6 +92,8 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
     private fun saveUser(id: String,username: String, password: String, url: String) {
         Log.d("URLLLLL", url)
         val editor = sharedPreferences.edit()
+        editor.clear()
+
         editor.putString("id", id)
         editor.putString("username", username)
         editor.putString("password", password)

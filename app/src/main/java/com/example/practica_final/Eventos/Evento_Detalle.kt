@@ -3,14 +3,9 @@ package com.example.practica_final.Eventos
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.practica_final.R
 import com.example.practica_final.Usuarios.Usuario
 import com.example.practica_final.Usuarios.UsuarioAdapter
 import com.example.practica_final.databinding.ActivityDetalleEventoBinding
@@ -39,7 +34,7 @@ class Evento_Detalle : AppCompatActivity() {
 
         eventoId = intent.getStringExtra("id_evento") ?: ""
 
-        adaptador = UsuarioAdapter(lista)
+        adaptador = UsuarioAdapter(lista, eventoId)
         binding.participantes.adapter = adaptador
         binding.participantes.layoutManager = LinearLayoutManager(applicationContext)
 
@@ -47,8 +42,8 @@ class Evento_Detalle : AppCompatActivity() {
     }
 
     private fun obtenerParticipantesDelEvento() {
-
-        db_ref.child("eventos").child(eventoId)  // Obtener el evento por su ID
+        lista.clear()
+        db_ref.child("eventos").child(eventoId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     // Obtener el objeto Evento completo
@@ -63,7 +58,7 @@ class Evento_Detalle : AppCompatActivity() {
                         val participantesIds = participantesString.split(",").map { it.trim() }
 
                         Log.d("DetalleEventoActivity", "Participantes IDs: $participantesIds")
-                        lista.clear()
+                        Log.d("DetalleEventoActivity", "Lista: $lista")
 
                         // Obtener los datos de cada usuario usando los IDs
                         obtenerDatosUsuarios(participantesIds)
@@ -83,7 +78,6 @@ class Evento_Detalle : AppCompatActivity() {
                 .addOnSuccessListener { usuarioSnapshot ->
                     val usuario = usuarioSnapshot.getValue(Usuario::class.java)
                     usuario?.let {
-                        // Agregar el usuario a la lista
                         lista.add(it)
                         adaptador.notifyDataSetChanged()
                     }
@@ -92,5 +86,6 @@ class Evento_Detalle : AppCompatActivity() {
                     Log.e("DetalleEventoActivity", "Error al obtener los datos del usuario", exception)
                 }
         }
+        Log.d("DetalleEventoActivity", "Participantes IDs: $participantesIds")
     }
 }

@@ -37,7 +37,7 @@ class RegistrarEvento : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        binding.registrarse.setOnClickListener {
+        binding.anadirCarta.setOnClickListener {
             val nombre = binding.introducirNombre.text.toString()
             val descripcion = binding.descripcionEditText.text.toString()
             val fecha = binding.fechaEditText.text.toString()

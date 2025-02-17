@@ -27,12 +27,12 @@
         android:layout_marginHorizontal="20dp"
         android:background="@drawable/gradient_button"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/registrarse"
+        app:layout_constraintBottom_toTopOf="@+id/anadir_carta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/registrarse"
+        android:id="@+id/anadir_carta"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
