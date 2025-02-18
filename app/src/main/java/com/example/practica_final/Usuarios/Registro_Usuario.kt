@@ -63,7 +63,7 @@ class Registro_Usuario : AppCompatActivity() {
 
             if (comprobarUsuario(nombre, contrasena, contrasena2, email)){
                 subir_usuario(storage)
-                intent = Intent(this, Pantalla_Principal::class.java)
+                intent = Intent(this, PantallaPrincipalActivity::class.java)
                 startActivity(intent)
             }
         }

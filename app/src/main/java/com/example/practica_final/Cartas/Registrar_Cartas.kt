@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.practica_final.R
-import com.example.practica_final.Usuarios.Pantalla_Principal
+import com.example.practica_final.Usuarios.PantallaPrincipalActivity
 import com.example.practica_final.databinding.ActivityRegistrarCartasBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -80,7 +80,7 @@ class Registrar_Cartas : AppCompatActivity() {
 
             if (comprobarDatos(nombre, color, precio, descripcion, unidades)) {
                 subirCarta(storage, nombre, color, precio, descripcion, unidades)
-                val intent = Intent(this, Pantalla_Principal::class.java)
+                val intent = Intent(this, PantallaPrincipalActivity::class.java)
                 startActivity(intent)
             }
         }

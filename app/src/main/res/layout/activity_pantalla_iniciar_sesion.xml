@@ -61,7 +61,7 @@
                     android:id="@+id/introducir_nombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nahuerl"
+                    android:hint="Usuario"
                     android:text="Nahuerl"
                     android:inputType="textPersonName"
                     android:textColor="#333333" />

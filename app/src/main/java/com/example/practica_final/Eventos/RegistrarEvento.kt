@@ -3,7 +3,6 @@ package com.example.practica_final.Eventos
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.app.Person
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -17,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.practica_final.R
-import com.example.practica_final.Usuarios.Pantalla_Principal
+import com.example.practica_final.Usuarios.PantallaPrincipalActivity
 import com.example.practica_final.Util
 import com.example.practica_final.databinding.ActivityRegistrarEventoBinding
 import com.google.firebase.database.DataSnapshot
@@ -68,7 +67,7 @@ class RegistrarEvento : AppCompatActivity() {
 
             if (comprobarEvento(nombre, descripcion, fecha)) {
                 subirImagenEvento(storage)
-                intent = Intent(this, Pantalla_Principal::class.java)
+                intent = Intent(this, PantallaPrincipalActivity::class.java)
                 startActivity(intent)
             }
         }

@@ -1,17 +1,12 @@
 package com.example.practica_final.Usuarios
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.practica_final.MainActivity
-import com.example.practica_final.R
 import com.example.practica_final.databinding.ActivityPantallaIniciarSesionBinding
-import com.example.practica_final.databinding.ActivityRegistroClienteBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -65,7 +60,7 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
                                 saveUser(id, username, password, url)
 
                                 Toast.makeText(this@Pantalla_Iniciar_Sesion, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(this@Pantalla_Iniciar_Sesion, Pantalla_Principal::class.java)
+                                val intent = Intent(this@Pantalla_Iniciar_Sesion, PantallaPrincipalActivity::class.java)
                                 startActivity(intent)
                             } else {
                                 Toast.makeText(this@Pantalla_Iniciar_Sesion, "Contraseña incorrecta", Toast.LENGTH_SHORT).show()

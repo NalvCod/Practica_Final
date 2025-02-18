@@ -49,7 +49,7 @@
             android:name=".Usuarios.Pantalla_Iniciar_Sesion"
             android:exported="false" />
         <activity
-            android:name=".Usuarios.Pantalla_Principal"
+            android:name=".Usuarios.PantallaPrincipalActivity"
             android:exported="false" />
         <activity
             android:name=".Cartas.Registrar_Cartas"
