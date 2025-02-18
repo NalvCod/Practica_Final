@@ -1,7 +1,9 @@
 package com.example.practica_final.Usuarios
 
 import android.net.Uri
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Usuario (
     var id : String? = "",
     var nombre: String? = "Usuario",

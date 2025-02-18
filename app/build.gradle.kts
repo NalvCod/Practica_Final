@@ -69,4 +69,7 @@ dependencies {
     //AppWriteStorage
     implementation("io.appwrite:sdk-for-kotlin:5.0.1")
 
+    //Serializable
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+
 }

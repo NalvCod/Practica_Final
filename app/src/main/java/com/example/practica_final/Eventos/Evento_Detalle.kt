@@ -1,10 +1,7 @@
 package com.example.practica_final.Eventos
 
-import android.annotation.SuppressLint
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.practica_final.Usuarios.Usuario
@@ -26,63 +23,81 @@ class Evento_Detalle : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Configurar la vista de la actividad
         binding = ActivityDetalleEventoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         lista = mutableListOf()
         db_ref = FirebaseDatabase.getInstance().reference
 
+        // Obtener el ID del evento pasado como extra en el Intent
         eventoId = intent.getStringExtra("id_evento") ?: ""
 
+        // Inicializar el adaptador para el RecyclerView
         adaptador = UsuarioAdapter(lista, eventoId)
+
+        // Configurar RecyclerView
         binding.participantes.adapter = adaptador
         binding.participantes.layoutManager = LinearLayoutManager(applicationContext)
 
+        // Obtener los participantes del evento desde la base de datos
         obtenerParticipantesDelEvento()
     }
 
+    // Función para obtener los participantes del evento
     private fun obtenerParticipantesDelEvento() {
         lista.clear()
-        db_ref.child("eventos").child(eventoId)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    // Obtener el objeto Evento completo
-                    val evento = snapshot.getValue(Evento::class.java)
-                    if (evento != null) {
-                        Log.d("DetalleEventoActivity", "Evento obtenido: ${evento.nombre}")
-                    }
+        db_ref.child("eventos").child(eventoId).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Obtener el objeto Evento completo
+                val evento = snapshot.getValue(Evento::class.java)
 
-                    evento?.let {
-                        val participantesIds = it.participantes // Ahora es una lista de IDs de usuarios (String)
+                evento?.let {
+                    Log.d("DetalleEventoActivity", "Evento obtenido: ${evento.nombre}")
+                    val participantesIds = evento.participantes // Lista de IDs de participantes
+                    Log.d("DetalleEventoActivity", "Participantes IDs: $participantesIds")
 
-                        Log.d("DetalleEventoActivity", "Participantes IDs: $participantesIds")
-
-                        // Obtener los datos de cada usuario usando los IDs
-                        obtenerDatosUsuarios(participantesIds)
-                    }
+                    // Obtener los datos de cada usuario usando los IDs
+                    obtenerDatosUsuarios(participantesIds)
                 }
+            }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e("DetalleEventoActivity", "Error al obtener los datos del evento", error.toException())
-                }
-            })
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("DetalleEventoActivity", "Error al obtener los datos del evento", error.toException())
+            }
+        })
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    // Función para obtener los datos de los usuarios participantes
     private fun obtenerDatosUsuarios(participantesIds: List<String>) {
-        participantesIds.forEach { usuarioId ->
-            db_ref.child("usuarios").child(usuarioId).get()
-                .addOnSuccessListener { usuarioSnapshot ->
-                    val usuario = usuarioSnapshot.getValue(Usuario::class.java)
-                    usuario?.let {
-                        it.id?.let { it1 -> lista.add(it1) }
-                        adaptador.notifyDataSetChanged()
+        db_ref.child("usuarios").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Limpiar la lista de usuarios antes de agregar los nuevos
+                lista.clear()
+
+                snapshot.children.forEach { hijo: DataSnapshot ->
+                    // Obtener el objeto Usuario de cada hijo
+                    val usuario = hijo.getValue(Usuario::class.java)
+                    Log.d("DetalleEventoActivity", "Usuario obtenido: ${usuario?.nombre}")
+
+                    // Verificar si el ID del usuario está en la lista de participantes
+                    if (usuario != null && participantesIds.contains(usuario.id)) {
+                        // Agregar el ID del usuario a la lista
+                        lista.add(usuario.id!!)
                     }
                 }
-                .addOnFailureListener { exception ->
-                    Log.e("DetalleEventoActivity", "Error al obtener los datos del usuario", exception)
-                }
-        }
-        Log.d("DetalleEventoActivity", "Participantes IDs: $participantesIds")
+
+                // Notificar al adaptador que los datos han cambiado
+                adaptador.notifyDataSetChanged()
+                Log.d("DetalleEventoActivity", "Lista de participantes actualizada: $lista")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("DetalleEventoActivity", "Error al obtener los datos de los usuarios", error.toException())
+            }
+        })
     }
 }
+
+
