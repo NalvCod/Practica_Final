@@ -63,12 +63,6 @@ class Registrar_Cartas : AppCompatActivity() {
 
         }
 
-        // Configurar las ventanas del sistema (gestión de márgenes)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         // Acción al pulsar en el botón de registrarse
         binding.anadirCarta.setOnClickListener {
@@ -135,6 +129,7 @@ class Registrar_Cartas : AppCompatActivity() {
             url = "https://cloud.appwrite.io/v1/storage/buckets/$id_bucket/files/$identificadorFile/preview?project=$id_projecto&output=jpg"
 
             val carta = Carta(
+                id = id_carta!!,
                 nombre = nombre,
                 color = color,
                 precio = precio,
@@ -174,13 +169,6 @@ class Registrar_Cartas : AppCompatActivity() {
             todoCorrecto = false
         }
         return todoCorrecto
-    }
-
-    private fun configurarSpinnerColores() {
-        val colores = listOf("Rojo", "Verde", "Azul", "Negro", "Blanco")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, colores)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.colorSpinner.adapter = adapter
     }
 
     // Acción de selección de imagen desde la galería

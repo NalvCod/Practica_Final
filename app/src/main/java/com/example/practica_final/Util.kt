@@ -17,6 +17,11 @@ class Util {
             db_ref.child("usuarios").child(id).setValue(usuario)
         }
 
+        //actualizar carta
+        fun actualizar_carta(db_ref: DatabaseReference, id: String, carta: Carta){
+            db_ref.child("cartas").child(id).setValue(carta)
+        }
+
         fun anadir_carta(db_ref: DatabaseReference, id: String, carta: Carta){
             db_ref.child("cartas").child(id).setValue(carta)
         }

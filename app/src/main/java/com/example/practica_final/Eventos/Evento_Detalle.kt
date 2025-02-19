@@ -71,7 +71,7 @@ class Evento_Detalle : AppCompatActivity() {
 
     // Función para obtener los datos de los usuarios participantes
     private fun obtenerDatosUsuarios(participantesIds: List<String>) {
-        db_ref.child("usuarios").addValueEventListener(object : ValueEventListener {
+        db_ref.child("usuarios").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Limpiar la lista de usuarios antes de agregar los nuevos
                 lista.clear()

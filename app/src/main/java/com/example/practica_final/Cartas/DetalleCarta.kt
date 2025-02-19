@@ -1,7 +1,9 @@
 package com.example.practica_final.Cartas
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.practica_final.databinding.ActivityDetalleCartaBinding
 import com.google.firebase.database.*
 
@@ -16,32 +18,33 @@ class DetalleCarta : AppCompatActivity() {
         binding = ActivityDetalleCartaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inicializamos la referencia de Firebase
         db_ref = FirebaseDatabase.getInstance().reference
 
-        // Obtenemos el id de la carta desde el intent
         cartaId = intent.getStringExtra("id_carta") ?: ""
+        Log.d("DetalleCarta", "ID de la carta: $cartaId")
 
-        // Cargar los datos de la carta
         obtenerDetallesCarta(cartaId)
     }
-
     private fun obtenerDetallesCarta(cartaId: String) {
         db_ref.child("cartas").child(cartaId).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                // Obtener el objeto Carta desde la base de datos
                 val carta = snapshot.getValue(Carta::class.java)
+
                 carta?.let {
                     // Actualizamos la UI con los datos de la carta
                     binding.tituloCarta.text = it.nombre
                     binding.descripcionCarta.text = it.descripcion
                     binding.precio.text = "${it.precio}€"
-                    // Aquí puedes usar una librería como Glide o Picasso para cargar la imagen desde la URL (si es que tienes una)
-                    // Glide.with(this@DetalleCarta).load(it.imagenUrl).into(binding.imagenCarta)
+
+                    Glide.with(this@DetalleCarta)
+                        .load(it.url_imagen)
+                        .into(binding.imagenCarta)
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Manejar el error
+                Log.e("DetalleCarta", "Error al obtener los datos de la carta", error.toException())
             }
         })
     }

@@ -9,7 +9,6 @@
 
     <!-- Logo de la aplicación -->
     <ImageView
-        android:layout_marginTop="20dp"
         android:id="@+id/logo"
         android:layout_width="0dp"
         android:layout_height="70dp"
@@ -19,11 +18,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Título de la actividad -->
     <TextView
         android:id="@+id/titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Editar carta Magic"
+        android:text="Modificar carta Magic"
         android:textAlignment="center"
         android:textColor="@color/naranja"
         android:layout_marginVertical="30dp"
@@ -54,6 +54,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Campo Foto -->
             <ImageView
                 android:id="@+id/foto_perfil"
                 android:layout_width="wrap_content"
@@ -84,7 +85,7 @@
                     android:textColor="#333333" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
+            <!-- Campo Descripción -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/introducir_descripcion_layout"
                 android:layout_width="match_parent"
@@ -106,28 +107,60 @@
                     android:minLines="3" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/introducir_unidades_layout"
+            <!-- Contenedor Horizontal para Unidades y Precio -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginBottom="16dp"
-                app:hintTextColor="@color/naranja"
-                app:hintEnabled="true"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/naranja"
-                app:boxStrokeWidth="2dp">
+                android:weightSum="2">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/introducir_unidades"
-                    android:layout_width="match_parent"
+                <!-- Campo Unidades -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/introducir_unidades_layout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Unidades"
-                    android:inputType="number"
-                    android:textColor="#333333" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_weight="1"
+                    app:hintTextColor="@color/naranja"
+                    app:hintEnabled="true"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/naranja"
+                    app:boxStrokeWidth="2dp">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/introducir_unidades"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Unidades"
+                        android:inputType="number"
+                        android:textColor="#333333" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo Precio -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/introducir_precio_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:hintTextColor="@color/naranja"
+                    app:hintEnabled="true"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/naranja"
+                    app:boxStrokeWidth="2dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/introducir_precio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Precio"
+                        android:inputType="numberDecimal"
+                        android:textColor="#333333" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Spinner de Color -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/color_layout"
+                android:id="@+id/color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -145,10 +178,10 @@
 
             <!-- Botón para registrar -->
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/anadir_carta"
+                android:id="@+id/modificar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Editar carta"
+                android:text="Registrar Carta"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:padding="20dp"
@@ -160,3 +193,4 @@
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

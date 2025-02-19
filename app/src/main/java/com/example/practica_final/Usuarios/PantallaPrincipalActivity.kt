@@ -48,6 +48,7 @@ class PantallaPrincipalActivity : AppCompatActivity() {
 
         // Configurar el perfil de usuario
         var perfilUrl = sharedPreferences.getString("imagen", "")
+        Log.d("URL_IMAGEN", perfilUrl!!)
         if (!perfilUrl.isNullOrEmpty()) {
             Glide.with(this)
                 .load(perfilUrl)  // Aquí cargamos la URL de la imagen
@@ -75,7 +76,7 @@ class PantallaPrincipalActivity : AppCompatActivity() {
         obtenerEventosDeUsuario()
 
         binding.gestionar.setOnClickListener {
-            val intent = Intent(this, RegistrarEvento::class.java)
+            val intent = Intent(this, AdminMenuActivity::class.java)
             startActivity(intent)
         }
 

@@ -122,7 +122,8 @@ class Registro_Usuario : AppCompatActivity() {
                 binding.introducirContrasena.text.toString(),
                 binding.introducirCorreo.text.toString(),
                 false,
-                url
+                url,
+                binding.introducirDinero.text.toString().toFloat()
             )
 
             Util.anadir_usuario(database, id_usuario!!, usuario)
@@ -183,12 +184,13 @@ class Registro_Usuario : AppCompatActivity() {
         return esCorrecto
     }
 
+    // Función para obtener la lista de usuarios desde Firebase
     fun obtenerListaUsuarios(db_ref: DatabaseReference, contexto: Context): MutableList<Usuario> {
         val lista_usuarios = mutableListOf<Usuario>()
 
         db_ref.child("usuarios").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                lista_usuarios.clear() // Limpiamos la lista antes de llenarla nuevamente
+                lista_usuarios.clear() // Limpiar la lista antes de agregar los nuevos usuarios
 
                 snapshot.children.forEach { usuarioSnapshot ->
                     val usuario = usuarioSnapshot.getValue(Usuario::class.java)
@@ -210,7 +212,6 @@ class Registro_Usuario : AppCompatActivity() {
         return lista_usuarios
     }
 
-
     fun comprobarContrasena(contrasena: String, contrasena2: String): Boolean {
         if (contrasena != contrasena2) {
             binding.repetirContrasena.error = "Las contraseñas no coinciden"
@@ -227,6 +228,7 @@ class Registro_Usuario : AppCompatActivity() {
         }
     }
 
+    // Actualiza la foto de perfil con la imagen seleccionada desde la galería
     private val accesoGaleria = registerForActivityResult(ActivityResultContracts.GetContent())
     { uri: Uri? ->
         if (uri != null) {

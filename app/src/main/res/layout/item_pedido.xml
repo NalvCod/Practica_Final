@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imagen_carta"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/titulo_carta"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="10dp"
+            app:strokeColor="@color/white">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/perfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/magic_tras" />
+        </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/titulo_carta"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginStart="15dp"
+        android:text="Nombre carta"
+        android:textColor="@color/naranja"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@id/usuario"
+        app:layout_constraintStart_toEndOf="@+id/imagen_carta"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/usuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Usuario"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@+id/titulo_carta"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_carta" />
+
+    <TextView
+        android:id="@+id/estado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="POR TRAMITAR"
+        android:textSize="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/aceptar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toTopOf="@+id/titulo_carta" />
+
+    <ImageView
+        android:id="@+id/aceptar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cancelar"
+        android:layout_margin="10dp"/>
+
+    <ImageView
+        android:id="@+id/cancelar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/edit"
+        app:layout_constraintBottom_toBottomOf="@+id/aceptar"
+        app:layout_constraintEnd_toEndOf="@+id/estado"
+        app:layout_constraintTop_toTopOf="@+id/aceptar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

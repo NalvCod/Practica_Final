@@ -24,7 +24,7 @@
         android:layout_height="70dp"
         android:layout_margin="20dp"
         android:backgroundTint="@color/white"
-        app:cardCornerRadius="50dp"
+        app:cardCornerRadius="35dp"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -74,20 +74,19 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lista_series"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:padding="5dp"
-        android:scrollbars="vertical"
         android:orientation="horizontal"
+        android:layout_margin="20dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/banner_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/activity_item_carta" />
+        tools:listitem="@layout/item_carta" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,7 +41,6 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
 
         checkUserLoggedIn()
 
-        // Configuramos el botón de login
         binding.iniciarSesion.setOnClickListener {
             val username = binding.introducirNombre.text.toString()
             val password = binding.introducirContrasena.text.toString()
@@ -95,6 +94,7 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
         editor.putString("imagen", url)
         editor.putBoolean("esAdmin", true)
         editor.putBoolean("isLoggedIn", true)
+        editor.putFloat("dinero", 100f)
         editor.apply()
     }
 

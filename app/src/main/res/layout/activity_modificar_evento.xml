@@ -79,7 +79,7 @@
                 app:boxStrokeWidth="2dp">
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/descripcion_edit_text"
+                    android:id="@+id/descripcion_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Descripción"
