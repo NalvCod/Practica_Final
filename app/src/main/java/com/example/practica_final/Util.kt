@@ -17,9 +17,22 @@ class Util {
             db_ref.child("usuarios").child(id).setValue(usuario)
         }
 
-        //actualizar carta
         fun actualizar_carta(db_ref: DatabaseReference, id: String, carta: Carta){
             db_ref.child("cartas").child(id).setValue(carta)
+        }
+
+        //actualizar usuario
+        fun actualizar_usuario(db_ref: DatabaseReference, id: String, usuario: Usuario){
+            db_ref.child("usuarios").child(id).setValue(usuario)
+        }
+
+        //conseguir objeto usuario desde firebase pasandole el id
+        fun obtener_usuario(db_ref: DatabaseReference, id: String): Usuario? {
+            var usuario: Usuario? = null
+            db_ref.child("usuarios").child(id).get().addOnSuccessListener {
+                usuario = it.getValue(Usuario::class.java)
+            }
+            return usuario
         }
 
         fun anadir_carta(db_ref: DatabaseReference, id: String, carta: Carta){
