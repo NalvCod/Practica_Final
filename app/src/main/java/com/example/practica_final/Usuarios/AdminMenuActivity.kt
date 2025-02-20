@@ -11,6 +11,7 @@ import com.example.practica_final.Cartas.Registrar_Cartas
 import com.example.practica_final.Cartas.VerCartasActivity
 import com.example.practica_final.Eventos.Modificar_Evento
 import com.example.practica_final.Eventos.RegistrarEvento
+import com.example.practica_final.Pedidos.GestionarPedidoActivity
 import com.example.practica_final.R
 import com.example.practica_final.databinding.ActivityAdminMenuBinding
 
@@ -51,7 +52,7 @@ class AdminMenuActivity : AppCompatActivity() {
         }
 
         binding.gestionarPedidos.setOnClickListener{
-            intent = Intent(this, PedidosAdminActivity::class.java)
+            intent = Intent(this, GestionarPedidoActivity::class.java)
             startActivity(intent)
         }
     }

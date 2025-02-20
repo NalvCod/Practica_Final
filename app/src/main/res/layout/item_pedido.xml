@@ -22,7 +22,7 @@
             app:strokeColor="@color/white">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/perfil"
+                android:id="@+id/carta_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
@@ -38,12 +38,12 @@
         android:text="Nombre carta"
         android:textColor="@color/naranja"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@id/usuario"
+        app:layout_constraintBottom_toTopOf="@id/carta_img"
         app:layout_constraintStart_toEndOf="@+id/imagen_carta"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/usuario"
+        android:id="@+id/nombre_usu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Usuario"

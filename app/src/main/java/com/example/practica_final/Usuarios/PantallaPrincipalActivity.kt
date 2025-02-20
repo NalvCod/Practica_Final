@@ -59,6 +59,11 @@ class PantallaPrincipalActivity : AppCompatActivity() {
             binding.perfil.setImageResource(R.drawable.baseline_supervised_user_circle_24)
         }
 
+        binding.perfil.setOnClickListener{
+            val intent = Intent(this, InformacionUsuario::class.java)
+            startActivity(intent)
+        }
+
         // Inicializar RecyclerView
         recycler = binding.listaEventos
         recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)

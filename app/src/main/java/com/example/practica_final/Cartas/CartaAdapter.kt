@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.practica_final.Pedidos.Pedido
 import com.example.practica_final.Usuarios.Usuario
 import com.example.practica_final.Util
 import com.example.practica_final.databinding.ItemCartaBinding
@@ -72,24 +73,33 @@ class CartaAdapter(private val context: Context, private val listaCarta: Mutable
 
         // Acción de comprar la carta
         holder.binding.comprar.setOnClickListener {
-            var dinero_usu = sharedPreferences.getFloat("dinero", 0f)
             val id_usu = sharedPreferences.getString("id", "")
-            Log.d("USUARIOOOO IDDD COMPRAQR", "id: $id_usu")
+            val nombre_usu = sharedPreferences.getString("username", "")
+            val email = sharedPreferences.getString("email", "")
+            val contrasena = sharedPreferences.getString("password", "")
+            val url = sharedPreferences.getString("imagen", "")
+            val esAdmin = sharedPreferences.getBoolean("esAdmin", false)
+            var dinero_usu = sharedPreferences.getFloat("dinero", 0f)
+            val usuario_loggeado = Usuario(id_usu, nombre_usu, contrasena, email, esAdmin, url!!, dinero_usu)
+
             if (dinero_usu >= carta_actual.precio) {
                 if (carta_actual.unidades > 0) {
                     // Actualizar unidades de la carta
                     carta_actual.unidades -= 1
                     Util.actualizar_carta(database, carta_actual.id, carta_actual)
 
-                    // Actualizar el saldo del usuario
-                    val usu = Util.obtener_usuario(database, id_usu.toString())
-                    Log.d("USUARIO ESITE", "dinero: ${usu?.nombre}")
-                    usu?.dinero = usu?.dinero?.minus(carta_actual.precio)!!
-                    Util.actualizar_usuario(database, id_usu.toString(), usu)
-
-                    // Actualizar el saldo en SharedPreferences
+                    // Actualizar dinero del usuario en SharedPreferences
                     dinero_usu -= carta_actual.precio
                     sharedPreferences.edit().putFloat("dinero", dinero_usu).apply()
+
+                    // Actualizar la información del usuario
+                    Util.anadir_usuario(database, id_usu.toString(), usuario_loggeado)
+
+                    // Crear el pedido con la ID generada automáticamente por Firebase
+                    val pedido = Pedido(id_usu!!, usuario_loggeado.id!!, carta_actual.id)
+
+                    // Añadir el pedido a la base de datos con la ID generada
+                    Util.anadir_pedido(database, pedido)
 
                     Toast.makeText(context, "Carta comprada", Toast.LENGTH_SHORT).show()
                 } else {
@@ -99,6 +109,7 @@ class CartaAdapter(private val context: Context, private val listaCarta: Mutable
                 Toast.makeText(context, "No tienes suficiente dinero", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         // Acción para ver más detalles de la carta
         holder.binding.info.setOnClickListener {

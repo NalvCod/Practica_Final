@@ -8,6 +8,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.practica_final.Cartas.Carta
 import com.example.practica_final.Eventos.Evento
+import com.example.practica_final.Pedidos.Pedido
 import com.example.practica_final.Usuarios.Usuario
 import com.google.firebase.database.DatabaseReference
 
@@ -21,23 +22,18 @@ class Util {
             db_ref.child("cartas").child(id).setValue(carta)
         }
 
-        //actualizar usuario
-        fun actualizar_usuario(db_ref: DatabaseReference, id: String, usuario: Usuario){
-            db_ref.child("usuarios").child(id).setValue(usuario)
-        }
-
-        //conseguir objeto usuario desde firebase pasandole el id
-        fun obtener_usuario(db_ref: DatabaseReference, id: String): Usuario? {
-            var usuario: Usuario? = null
-            db_ref.child("usuarios").child(id).get().addOnSuccessListener {
-                usuario = it.getValue(Usuario::class.java)
-            }
-            return usuario
-        }
-
         fun anadir_carta(db_ref: DatabaseReference, id: String, carta: Carta){
             db_ref.child("cartas").child(id).setValue(carta)
         }
+
+        fun anadir_pedido(db_ref: DatabaseReference, pedido: Pedido) {
+            val nuevoPedidoRef = db_ref.child("pedidos").push() // Genera una ID única
+            pedido.id = nuevoPedidoRef.key.toString()  // Asigna la ID generada al objeto Pedido
+
+            // Ahora guarda el pedido con su ID generada en Firebase
+            nuevoPedidoRef.setValue(pedido)
+        }
+
 
         fun anadir_evento(db_ref: DatabaseReference, id: String, evento: Evento){
             db_ref.child("eventos").child(id).setValue(evento)

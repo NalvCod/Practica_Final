@@ -16,22 +16,50 @@ import com.google.firebase.database.FirebaseDatabase
 class GestionarPedidoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGestionarPedidoBinding
     private lateinit var database: FirebaseDatabase
-    private lateinit var lista_eventos: MutableList<Evento>
-    private lateinit var adapter: EventoAdapter
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var lista_pedidos: MutableList<Pedido>
+    private lateinit var adapter: PedidoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = ActivityGestionarPedidoBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        binding.listaEventos.adapter = EventoAdapter(lista_eventos)
-        binding.listaEventos.layoutManager = LinearLayoutManager(this)
-        enableEdgeToEdge()
+
+        // Inicialización de binding
+        binding = ActivityGestionarPedidoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Inicialización de Firebase
+        database = FirebaseDatabase.getInstance()
+        lista_pedidos = mutableListOf()  // Inicializa la lista antes de usarla
+
+        // Inicialización del adapter después de haber cargado los pedidos
+        adapter = PedidoAdapter(lista_pedidos)
+        binding.listaEventos.adapter = adapter
+        binding.listaEventos.layoutManager = LinearLayoutManager(this)
+
+        // Habilitar Edge-to-Edge (opcional)
+        enableEdgeToEdge()
+
+        // Obtener pedidos desde la base de datos
+        database.reference.child("pedidos").get()
+            .addOnSuccessListener { snapshot ->
+                // Limpiar lista antes de agregar los nuevos datos
+                lista_pedidos.clear()
+
+                for (childSnapshot in snapshot.children) {
+                    val pedido = childSnapshot.getValue(Pedido::class.java)
+                    if (pedido != null) {
+                        lista_pedidos.add(pedido)
+                    }
+                }
+
+                // Notificar al adaptador que los datos han cambiado
+                adapter.notifyDataSetChanged()
+            }
+
+        // Configurar el sistema de barras
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
     }
 }
