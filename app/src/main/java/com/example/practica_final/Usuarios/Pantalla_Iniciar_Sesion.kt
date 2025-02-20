@@ -41,10 +41,11 @@ class Pantalla_Iniciar_Sesion : AppCompatActivity() {
 
         checkUserLoggedIn()
 
+
         binding.iniciarSesion.setOnClickListener {
             val username = binding.introducirNombre.text.toString()
             val password = binding.introducirContrasena.text.toString()
-
+            //toast booleano admin
             if (username.isNotEmpty() && password.isNotEmpty()) {
                 database.child("usuarios").orderByChild("nombre").equalTo(username).addListenerForSingleValueEvent(object :
                     ValueEventListener {

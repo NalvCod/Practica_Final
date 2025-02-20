@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.core.animateDecay
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -79,6 +80,19 @@ class PantallaPrincipalActivity : AppCompatActivity() {
 
         // Obtener eventos a los que el usuario está registrado
         obtenerEventosDeUsuario()
+        //ver esAdmin valor Log
+
+        var log = sharedPreferences.getBoolean("esAdmin", false)
+
+
+        if (log) {
+            binding.gestionar.visibility = android.view.View.VISIBLE
+            Log.d("ESADMINNNNNNNNNNNNNNNNNNN 2", log.toString())
+        }else{
+            binding.gestionar.visibility = android.view.View.GONE
+            Log.d("ESADMINNNNNNNNNNNNNNNNNNN", sharedPreferences.getBoolean("esAdmin", false).toString())
+        }
+
 
         binding.gestionar.setOnClickListener {
             val intent = Intent(this, AdminMenuActivity::class.java)

@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Usuario"
-                    android:text="Nahuerl"
+                    android:text="admin"
                     android:inputType="textPersonName"
                     android:textColor="#333333" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -82,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:counterEnabled="true"
-                    android:text="12345678A"
+                    android:text="admin"
                     android:hint="Contraseña"
                     android:inputType="textPassword"
                     android:textColor="#333333" />

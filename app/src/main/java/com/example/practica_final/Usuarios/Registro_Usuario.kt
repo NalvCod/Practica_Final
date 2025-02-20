@@ -49,25 +49,33 @@ class Registro_Usuario : AppCompatActivity() {
         val client = Client().setEndpoint("https://cloud.appwrite.io/v1").setProject(id_projecto)
         storage = Storage(client)
         setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Listener para el botón de registro
         binding.registrarUsuario.setOnClickListener {
             val nombre = binding.introducirNombre.text.toString()
             val contrasena = binding.introducirContrasena.text.toString()
             val contrasena2 = binding.repetirContrasena.text.toString()
             val email = binding.introducirCorreo.text.toString()
 
-            if (comprobarUsuario(nombre, contrasena, contrasena2, email)){
+            if (comprobarUsuario(nombre, contrasena, contrasena2, email)) {
+                // Verifica que se haya seleccionado una imagen de perfil
+                if (url_imagen == null) {
+                    Toast.makeText(this, "Por favor, selecciona una imagen de perfil", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
                 subir_usuario(storage)
                 intent = Intent(this, PantallaPrincipalActivity::class.java)
                 startActivity(intent)
             }
         }
 
+        // Acción para seleccionar la foto de perfil desde la galería
         binding.fotoPerfil.setOnClickListener {
             accesoGaleria.launch("image/*")
         }
@@ -92,7 +100,6 @@ class Registro_Usuario : AppCompatActivity() {
             val aux = contentResolver.query(url_imagen!!, null, null, null, null)
             aux.use {
                 if (it!!.moveToFirst()) {
-                    // Obtener el nombre del archivo
                     val nombreIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
                     if (nombreIndex != -1) {
                         nombreArchivo = it.getString(nombreIndex)
@@ -116,7 +123,6 @@ class Registro_Usuario : AppCompatActivity() {
 
             url = "https://cloud.appwrite.io/v1/storage/buckets/$id_bucket/files/$identificadorFile/preview?project=$id_projecto&output=jpg"
 
-
             val usuario = Usuario(id_usuario,
                 binding.introducirNombre.text.toString(),
                 binding.introducirContrasena.text.toString(),
@@ -133,15 +139,13 @@ class Registro_Usuario : AppCompatActivity() {
                 "Imagen descargada con éxito"
             )
         }
-        //finish()
         Log.v("url", url)
         return url
     }
 
-    fun comprobarUsuario(nombre: String, contrasena: String, contrasena2: String, email: String):Boolean {
+    fun comprobarUsuario(nombre: String, contrasena: String, contrasena2: String, email: String): Boolean {
         var todoCorrecto = false
         if (nombre.isNotEmpty() && contrasena.isNotEmpty()) {
-            //Si todos los datos son correctos, creo el objeto
             if (comprobarNombre(nombre) && comprobarContrasena(contrasena, contrasena2) && comprobarCorreo(email)) {
                 todoCorrecto = true
             }
@@ -158,7 +162,6 @@ class Registro_Usuario : AppCompatActivity() {
             if (Util.existeUsuario(listaUsuarios, nombre)) {
                 Toast.makeText(this, "El usuario ya existe", Toast.LENGTH_SHORT).show()
             }
-
             esCorrecto = true
         } else {
             binding.introducirNombre.error = "El nombre de usuario debe tener al menos 5 caracteres"
@@ -167,11 +170,10 @@ class Registro_Usuario : AppCompatActivity() {
     }
 
     fun comprobarCorreo(email: String): Boolean {
-        val listaUsuarios = obtenerListaUsuarios(database, this)  // Suponiendo que ya tienes esta función
+        val listaUsuarios = obtenerListaUsuarios(database, this)
         var esCorrecto = false
 
         if (email.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            // Verificar si el correo ya existe en la lista de usuarios
             if (Util.existeUsuario(listaUsuarios, email)) {
                 Toast.makeText(this, "El correo electrónico ya está registrado", Toast.LENGTH_SHORT).show()
             } else {
@@ -184,14 +186,11 @@ class Registro_Usuario : AppCompatActivity() {
         return esCorrecto
     }
 
-    // Función para obtener la lista de usuarios desde Firebase
     fun obtenerListaUsuarios(db_ref: DatabaseReference, contexto: Context): MutableList<Usuario> {
         val lista_usuarios = mutableListOf<Usuario>()
-
         db_ref.child("usuarios").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                lista_usuarios.clear() // Limpiar la lista antes de agregar los nuevos usuarios
-
+                lista_usuarios.clear()
                 snapshot.children.forEach { usuarioSnapshot ->
                     val usuario = usuarioSnapshot.getValue(Usuario::class.java)
                     if (usuario != null) {
@@ -208,7 +207,6 @@ class Registro_Usuario : AppCompatActivity() {
                 ).show()
             }
         })
-
         return lista_usuarios
     }
 
@@ -217,7 +215,6 @@ class Registro_Usuario : AppCompatActivity() {
             binding.repetirContrasena.error = "Las contraseñas no coinciden"
             return false
         } else {
-            //comprobar que la contraseña tenga mas de 8 caracteres y una mayuscula
             if (contrasena.length > 8 && contrasena.any { it.isUpperCase() }) {
                 return true
             } else {
@@ -228,12 +225,11 @@ class Registro_Usuario : AppCompatActivity() {
         }
     }
 
-    // Actualiza la foto de perfil con la imagen seleccionada desde la galería
-    private val accesoGaleria = registerForActivityResult(ActivityResultContracts.GetContent())
-    { uri: Uri? ->
+    private val accesoGaleria = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             url_imagen = uri
             binding.fotoPerfil.setImageURI(url_imagen)
         }
     }
 }
+

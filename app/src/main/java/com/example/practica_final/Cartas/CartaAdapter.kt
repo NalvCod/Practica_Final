@@ -56,11 +56,8 @@ class CartaAdapter(private val context: Context, private val listaCarta: Mutable
 
         // Manejo de la visibilidad de los botones para Admin
         if (sharedPreferences.getBoolean("esAdmin", false)) {
-            holder.binding.edit.visibility = View.VISIBLE
-            holder.binding.delete.visibility = View.VISIBLE
-        } else {
             holder.binding.edit.visibility = View.GONE
-            holder.binding.delete.visibility = View.GONE
+
         }
 
         // Acción de editar la carta
